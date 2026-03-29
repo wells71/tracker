@@ -12,17 +12,17 @@ const nav = [
   {
     label: 'Personal',
     items: [
-      { href: '/tasks',   label: 'Tasks',   icon: ListIcon  },
-      { href: '/habits',  label: 'Habits',  icon: ClockIcon },
-      { href: '/goals',   label: 'GoalIcon', icon: CheckIcon },
-      { href: '/notes',   label: 'Notes',   icon: FileIcon  },
+      { href: '/tasks',  label: 'Tasks',   icon: ListIcon  },
+      { href: '/habits', label: 'Habits',  icon: ClockIcon },
+      { href: '/goals',  label: 'Goals',   icon: CheckIcon },
+      { href: '/notes',  label: 'Notes',   icon: FileIcon  },
     ],
   },
   {
     label: 'Finance',
     items: [
-      { href: '/finance', label: 'Finances', icon: TrendIcon   },
-      { href: '/budget',  label: 'Budget',   icon: CircleIcon  },
+      { href: '/finance', label: 'Finances', icon: TrendIcon  },
+      { href: '/budget',  label: 'Budget',   icon: CircleIcon },
     ],
   },
   {
@@ -35,22 +35,21 @@ export function Sidebar({ settings }: { settings: UserSettings }) {
   const path = usePathname()
 
   return (
-    <aside
-      className="fixed inset-y-0 left-0 z-50 flex flex-col border-r border-border bg-card"
-      style={{ width: 'var(--sidebar-w)' }}
-    >
+    <aside className="fixed inset-y-0 left-0 z-50 flex w-[220px] flex-col border-r border-border bg-card">
       {/* Brand */}
-      <div className="flex h-[52px] items-center gap-2.5 border-b border-border px-4">
-        <div className="h-5 w-5 flex-shrink-0 bg-foreground"
-             style={{ clipPath: 'polygon(50% 0%, 100% 100%, 0% 100%)' }} />
-        <span className="text-sm font-semibold tracking-tight">{settings.workspace}</span>
+      <div className="flex h-[56px] flex-shrink-0 items-center gap-3 border-b border-border px-5">
+        <div
+          className="h-5 w-5 flex-shrink-0 bg-foreground"
+          style={{ clipPath: 'polygon(50% 0%, 100% 100%, 0% 100%)' }}
+        />
+        <span className="text-base font-semibold tracking-tight">{settings.workspace}</span>
       </div>
 
       {/* Nav */}
       <nav className="flex-1 overflow-y-auto py-2">
         {nav.map(group => (
           <div key={group.label}>
-            <p className="px-4 pb-1 pt-4 font-mono text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
+            <p className="px-4 pb-1 pt-4 font-mono text-[13px] font-medium uppercase tracking-widest text-muted-foreground">
               {group.label}
             </p>
             {group.items.map(item => {
@@ -60,13 +59,13 @@ export function Sidebar({ settings }: { settings: UserSettings }) {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    'mx-2 flex items-center gap-2 rounded-md px-3 py-1.5 text-[13px] transition-colors',
+                    'mx-2 mb-0.5 flex items-center gap-2.5 rounded-md px-3 py-2 text-[14px] transition-colors',
                     active
-                      ? 'bg-accent text-foreground font-medium'
+                      ? 'bg-accent font-medium text-foreground'
                       : 'text-muted-foreground hover:bg-accent hover:text-foreground'
                   )}
                 >
-                  <item.icon className={cn('h-[15px] w-[15px] flex-shrink-0', active ? 'opacity-100' : 'opacity-60')} />
+                  <item.icon className={cn('h-4 w-4 flex-shrink-0', active ? 'opacity-100' : 'opacity-60')} />
                   {item.label}
                 </Link>
               )
@@ -76,16 +75,14 @@ export function Sidebar({ settings }: { settings: UserSettings }) {
       </nav>
 
       {/* User */}
-      <div className="border-t border-border p-3">
-        <Link href="/settings"
-          className="flex items-center gap-2.5 rounded-md p-2 transition-colors hover:bg-accent">
-          <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full
-                          bg-gradient-to-br from-indigo-400 to-purple-500 font-mono text-[11px] font-semibold text-white">
+      <div className="flex-shrink-0 border-t border-border p-3">
+        <Link href="/settings" className="flex items-center gap-3 rounded-md p-2 transition-colors hover:bg-accent">
+          <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 font-mono text-[14px] font-semibold text-white">
             {settings.initials}
           </div>
           <div className="min-w-0 flex-1">
-            <p className="truncate text-[12.5px] font-medium">{settings.name}</p>
-            <p className="font-mono text-[11px] text-muted-foreground">{settings.plan}</p>
+            <p className="truncate text-[15px] font-medium">{settings.name}</p>
+            <p className="font-mono text-[14px] text-muted-foreground">{settings.plan}</p>
           </div>
         </Link>
       </div>
@@ -93,7 +90,6 @@ export function Sidebar({ settings }: { settings: UserSettings }) {
   )
 }
 
-/* ── Inline icons ── */
 function GridIcon({ className }: { className?: string }) {
   return <svg className={className} viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>
 }

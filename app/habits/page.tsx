@@ -16,7 +16,7 @@ export default async function HabitsPage() {
       <div className="mb-5 flex items-center justify-between">
         <div>
           <h1 className="text-sm font-semibold">Habit Tracker</h1>
-          <p className="font-mono text-[11.5px] text-muted-foreground">Last 14 days · tap any dot to toggle</p>
+          <p className="font-mono text-[15px] text-muted-foreground">Last 14 days · tap any dot to toggle</p>
         </div>
         <AddHabitModal>
           <Button size="sm">
@@ -34,14 +34,14 @@ export default async function HabitsPage() {
 
       <Card>
         <CardHeader className="py-3">
-          <CardTitle className="text-[12.5px] font-medium">Daily Habits</CardTitle>
+          <CardTitle className="text-[15px] font-medium">Daily Habits</CardTitle>
         </CardHeader>
         <CardContent className="pt-0">
           {habits.length
             ? <div className="flex flex-col divide-y divide-border">
                 {habits.map(h => <div key={h.id} className="py-1.5"><HabitRow habit={h} /></div>)}
               </div>
-            : <p className="py-8 text-center font-mono text-xs text-muted-foreground">No habits yet — add your first one.</p>
+            : <p className="py-8 text-center font-mono text-sm text-muted-foreground">No habits yet — add your first one.</p>
           }
         </CardContent>
       </Card>

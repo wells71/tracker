@@ -27,17 +27,17 @@ const trendColors = {
 export function StatCard({ label, value, change, trend, dot }: StatCardProps) {
   return (
     <Card className="transition-colors hover:border-border/80">
-      <CardContent className="p-4">
-        <div className="mb-2.5 flex items-center gap-1.5">
-          {dot && <span className={cn('h-1.5 w-1.5 rounded-full flex-shrink-0', dotColors[dot])} />}
-          <span className="font-mono text-[11px] uppercase tracking-[0.05em] text-muted-foreground">
+      <CardContent className="p-5">
+        <div className="mb-3 flex items-center gap-2">
+          {dot && <span className={cn('h-2 w-2 rounded-full flex-shrink-0', dotColors[dot])} />}
+          <span className="font-mono text-[13px] uppercase tracking-[0.05em] text-muted-foreground">
             {label}
           </span>
         </div>
-        <p className="mb-1.5 font-mono text-2xl font-semibold tracking-tight leading-none">
+        <p className="mb-2 font-mono text-3xl font-semibold tracking-tight leading-none">
           {value}
         </p>
-        <p className={cn('font-mono text-[11.5px]', trendColors[trend])}>{change}</p>
+        <p className={cn('font-mono text-[13px]', trendColors[trend])}>{change}</p>
       </CardContent>
     </Card>
   )

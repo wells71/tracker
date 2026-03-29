@@ -6,24 +6,28 @@ import { Sidebar } from '@/components/sidebar'
 import { Topbar } from '@/components/topbar'
 import { Toaster } from '@/components/ui/sonner'
 import { getSettings } from '@/lib/db'
-import { Geist } from "next/font/google";
-import { cn } from "@/lib/utils";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
-
-export const metadata: Metadata = { title: 'Tracker', description: 'Personal dashboard' }
+export const metadata: Metadata = {
+  title: 'Tracker',
+  description: 'Personal dashboard',
+}
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const settings = await getSettings()
 
   return (
-    <html lang="en" className={cn("dark", GeistSans.variable, GeistMono.variable, "font-sans", geist.variable)}>
-      <body className="bg-background text-foreground antialiased">
+    <html lang="en" className={`dark ${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
+      <body className="bg-background text-foreground antialiased" suppressHydrationWarning>
         <div className="flex min-h-screen">
+          {/* Fixed sidebar — 220px wide */}
           <Sidebar settings={settings} />
-          <div className="flex flex-1 flex-col" style={{ marginLeft: 'var(--sidebar-w)' }}>
+
+          {/* Main — offset by sidebar width */}
+          <div className="flex min-h-screen flex-1 flex-col pl-[220px]">
             <Topbar />
-            <main className="flex-1 p-7">{children}</main>
+            <main className="flex-1 p-7">
+              {children}
+            </main>
           </div>
         </div>
         <Toaster theme="dark" position="bottom-right" />

@@ -16,10 +16,12 @@ export function ResetTableButton({ table, label }: { table: string; label: strin
   }
 
   return (
-    <button onClick={handleClick} disabled={pending}
-      className="flex w-full items-center justify-between rounded-md border border-red-500/20 bg-red-500/5
-                 px-3 py-2 text-[12px] text-red-400 transition-colors hover:border-red-500/40 hover:bg-red-500/10
-                 disabled:opacity-50">
+    <button
+      suppressHydrationWarning
+      onClick={handleClick}
+      disabled={pending}
+      className="flex w-full items-center justify-between rounded-md border border-destructive/20 bg-destructive/5 px-3 py-2 text-[12px] text-destructive transition-colors hover:border-destructive/40 hover:bg-destructive/10 disabled:opacity-50"
+    >
       {pending ? 'Resetting…' : label}
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-3 w-3 opacity-60">
         <path d="M2 4h12M5 4V2h6v2M6 7v5M10 7v5M3 4l1 10h8l1-10"/>

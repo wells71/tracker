@@ -23,7 +23,7 @@ export default async function FinancePage() {
       <div className="mb-5 flex items-center justify-between">
         <div>
           <h1 className="text-sm font-semibold">Finances</h1>
-          <p className="font-mono text-[11.5px] text-muted-foreground">Live from database</p>
+          <p className="font-mono text-[15px] text-muted-foreground">Live from database</p>
         </div>
         <AddTransactionModal>
           <Button size="sm">
@@ -44,8 +44,8 @@ export default async function FinancePage() {
         {/* Bar chart */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between py-3">
-            <CardTitle className="text-[12.5px] font-medium">Monthly Spend</CardTitle>
-            <span className="font-mono text-[11px] text-muted-foreground">Last {history.length} months</span>
+            <CardTitle className="text-[15px] font-medium">Monthly Spend</CardTitle>
+            <span className="font-mono text-[15px] text-muted-foreground">Last {history.length} months</span>
           </CardHeader>
           <CardContent className="pt-0">
             <div className="flex h-20 items-end gap-1.5">
@@ -69,7 +69,7 @@ export default async function FinancePage() {
         {/* Accounts */}
         <Card>
           <CardHeader className="py-3">
-            <CardTitle className="text-[12.5px] font-medium">Accounts</CardTitle>
+            <CardTitle className="text-[15px] font-medium">Accounts</CardTitle>
           </CardHeader>
           <CardContent className="divide-y divide-border pt-0">
             {accounts.map(a => (
@@ -80,10 +80,10 @@ export default async function FinancePage() {
                   </svg>
                 </div>
                 <div className="flex-1">
-                  <p className="text-[13px] font-medium">{a.name}</p>
-                  <p className="font-mono text-[11px] text-muted-foreground">{a.type}</p>
+                  <p className="text-[15px] font-medium">{a.name}</p>
+                  <p className="font-mono text-[15px] text-muted-foreground">{a.type}</p>
                 </div>
-                <span className="font-mono text-[13px] font-medium text-emerald-400">
+                <span className="font-mono text-[15px] font-medium text-emerald-400">
                   ${Number(a.balance).toLocaleString()}
                 </span>
               </div>
@@ -95,8 +95,8 @@ export default async function FinancePage() {
       {/* Transactions */}
       <Card>
         <CardHeader className="flex flex-row items-center justify-between py-3">
-          <CardTitle className="text-[12.5px] font-medium">Transactions</CardTitle>
-          <span className="font-mono text-[11px] text-muted-foreground">
+          <CardTitle className="text-[15px] font-medium">Transactions</CardTitle>
+          <span className="font-mono text-[15px] text-muted-foreground">
             {now.toLocaleString('en-US', { month: 'long', year: 'numeric' })}
           </span>
         </CardHeader>
@@ -113,22 +113,22 @@ export default async function FinancePage() {
                       </svg>
                     </div>
                     <div className="flex-1">
-                      <p className="text-[13px] font-medium">{t.name}</p>
-                      <p className="font-mono text-[11px] text-muted-foreground">{t.category}</p>
+                      <p className="text-[15px] font-medium">{t.name}</p>
+                      <p className="font-mono text-[15px] text-muted-foreground">{t.category}</p>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="text-right">
-                        <p className={`font-mono text-[13px] font-medium ${isIncome ? 'text-emerald-400' : ''}`}>
+                        <p className={`font-mono text-[15px] font-medium ${isIncome ? 'text-emerald-400' : ''}`}>
                           {isIncome ? '+' : ''}${Math.abs(amt).toFixed(2)}
                         </p>
-                        <p className="font-mono text-[11px] text-muted-foreground">{t.txn_date}</p>
+                        <p className="font-mono text-[15px] text-muted-foreground">{t.txn_date}</p>
                       </div>
                       <DeleteTransactionButton id={t.id} />
                     </div>
                   </div>
                 )
               })
-            : <p className="py-8 text-center font-mono text-xs text-muted-foreground">No transactions yet.</p>
+            : <p className="py-8 text-center font-mono text-sm text-muted-foreground">No transactions yet.</p>
           }
         </CardContent>
       </Card>

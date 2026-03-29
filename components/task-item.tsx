@@ -46,7 +46,7 @@ export function TaskItem({ task, showDelete = false }: { task: Task; showDelete?
         )}
       </button>
 
-      <span className={cn('flex-1 text-[13px]', task.done && 'text-muted-foreground line-through')}>
+      <span className={cn('flex-1 text-[15px]', task.done && 'text-muted-foreground line-through')}>
         {task.title}
       </span>
 
@@ -55,7 +55,7 @@ export function TaskItem({ task, showDelete = false }: { task: Task; showDelete?
           {task.priority}
         </span>
         {task.due_date && (
-          <span className="font-mono text-[11px] text-muted-foreground">{task.due_date}</span>
+          <span className="font-mono text-[15px] text-muted-foreground">{task.due_date}</span>
         )}
         {showDelete && (
           <button onClick={handleDelete}

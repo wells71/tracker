@@ -33,9 +33,9 @@ export function NoteCard({ note, onEdit }: { note: Note; onEdit: (note: Note) =>
             </svg>
           </button>
         </div>
-        <p className="mb-1 text-[12.5px] font-medium">{note.title}</p>
-        <p className="mb-2 line-clamp-2 text-[11.5px] text-muted-foreground">{note.body}</p>
-        <p className="font-mono text-[11px] text-muted-foreground/60">
+        <p className="mb-1 text-[15px] font-medium">{note.title}</p>
+        <p className="mb-2 line-clamp-2 text-[15px] text-muted-foreground">{note.body}</p>
+        <p className="font-mono text-[15px] text-muted-foreground/60">
           {new Date(note.updated_at ?? note.created_at).toLocaleDateString('en-US', {
             month: 'short', day: 'numeric', year: 'numeric'
           })}

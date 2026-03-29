@@ -27,7 +27,7 @@ export function HabitRow({ habit }: { habit: Habit }) {
 
   return (
     <div className={cn('flex items-center gap-3 py-1', pending && 'opacity-50')}>
-      <span className="w-28 flex-shrink-0 text-[12.5px] text-muted-foreground truncate">
+      <span className="w-28 flex-shrink-0 text-[14px] text-muted-foreground truncate">
         {habit.name}
       </span>
       <div className="flex flex-1 gap-0.5">
@@ -49,7 +49,7 @@ export function HabitRow({ habit }: { habit: Habit }) {
           </button>
         ))}
       </div>
-      <span className="w-8 flex-shrink-0 text-right font-mono text-[11px] text-orange-400">
+      <span className="w-8 flex-shrink-0 text-right font-mono text-[15px] text-orange-400">
         {habit.streak}
       </span>
       <button onClick={handleDelete}

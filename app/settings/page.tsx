@@ -10,13 +10,13 @@ export default async function SettingsPage() {
     <div>
       <div className="mb-5">
         <h1 className="text-sm font-semibold">Settings</h1>
-        <p className="font-mono text-[11.5px] text-muted-foreground">Profile &amp; data management</p>
+        <p className="font-mono text-[15px] text-muted-foreground">Profile &amp; data management</p>
       </div>
 
       <div className="grid grid-cols-2 gap-5">
         <Card>
           <CardHeader className="py-3">
-            <CardTitle className="text-[12.5px] font-medium">Profile</CardTitle>
+            <CardTitle className="text-[15px] font-medium">Profile</CardTitle>
           </CardHeader>
           <CardContent className="pt-0">
             <SettingsForm settings={settings} />
@@ -25,10 +25,10 @@ export default async function SettingsPage() {
 
         <Card>
           <CardHeader className="py-3">
-            <CardTitle className="text-[12.5px] font-medium">Data Management</CardTitle>
+            <CardTitle className="text-[15px] font-medium">Data Management</CardTitle>
           </CardHeader>
           <CardContent className="pt-0">
-            <p className="mb-4 text-[12.5px] leading-relaxed text-muted-foreground">
+            <p className="mb-4 text-[14px] leading-relaxed text-muted-foreground">
               Permanently delete records from the database. This cannot be undone.
             </p>
             <div className="flex flex-col gap-2">

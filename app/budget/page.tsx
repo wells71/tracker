@@ -12,7 +12,7 @@ export default async function BudgetPage() {
     <div>
       <div className="mb-5">
         <h1 className="text-sm font-semibold">Budget</h1>
-        <p className="font-mono text-[11.5px] text-muted-foreground">
+        <p className="font-mono text-[15px] text-muted-foreground">
           ${spent.toLocaleString()} of ${limit.toLocaleString()} used
           {over > 0 ? ` · ${over} over limit` : ''}
         </p>
@@ -26,7 +26,7 @@ export default async function BudgetPage() {
 
       <Card>
         <CardHeader className="py-3">
-          <CardTitle className="text-[12.5px] font-medium">Category Breakdown</CardTitle>
+          <CardTitle className="text-[15px] font-medium">Category Breakdown</CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col gap-4 pt-0">
           {categories.map((c, i) => {
@@ -36,13 +36,13 @@ export default async function BudgetPage() {
             return (
               <div key={c.id} className={i === categories.length - 1 ? '' : ''}>
                 <div className="mb-1.5 flex items-center justify-between">
-                  <span className="text-[12.5px] text-muted-foreground">
+                  <span className="text-[14px] text-muted-foreground">
                     {c.name}
-                    <span className="ml-2 font-mono text-[11px] text-muted-foreground/60">
+                    <span className="ml-2 font-mono text-[15px] text-muted-foreground/60">
                       ${Number(c.spent).toLocaleString()} / ${Number(c.budget_limit).toLocaleString()}
                     </span>
                   </span>
-                  <span className={`font-mono text-[11.5px] ${isOver ? 'text-red-400' : 'text-muted-foreground'}`}>
+                  <span className={`font-mono text-[15px] ${isOver ? 'text-red-400' : 'text-muted-foreground'}`}>
                     {pct}%
                   </span>
                 </div>
@@ -56,7 +56,7 @@ export default async function BudgetPage() {
             )
           })}
           {!categories.length && (
-            <p className="py-8 text-center font-mono text-xs text-muted-foreground">No budget data.</p>
+            <p className="py-8 text-center font-mono text-sm text-muted-foreground">No budget data.</p>
           )}
         </CardContent>
       </Card>

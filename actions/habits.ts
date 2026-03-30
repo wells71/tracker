@@ -1,5 +1,5 @@
 'use server'
-import { revalidateTag } from 'next/cache'
+import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 
 export async function toggleHabit(id: number, pattern: number[], dayIndex: number) {
@@ -12,7 +12,7 @@ export async function toggleHabit(id: number, pattern: number[], dayIndex: numbe
   }
   const { error } = await supabase.from('habits').update({ pattern: newPattern, streak }).eq('id', id)
   if (error) return { error: error.message }
-  revalidateTag('habits')
+  revalidatePath('/', 'layout')
 }
 
 export async function addHabit(formData: FormData) {
@@ -22,14 +22,14 @@ export async function addHabit(formData: FormData) {
   const { error } = await supabase.from('habits')
     .insert({ name: name.trim(), streak: 0, pattern: new Array(14).fill(0), sort_order: 999 })
   if (error) return { error: error.message }
-  revalidateTag('habits')
+  revalidatePath('/', 'layout')
 }
 
 export async function deleteHabit(id: number) {
   const supabase = await createClient()
   const { error } = await supabase.from('habits').delete().eq('id', id)
   if (error) return { error: error.message }
-  revalidateTag('habits')
+  revalidatePath('/', 'layout')
 }
 
 /* ── AUTO-ADVANCE ──────────────────────────────────────────
@@ -77,5 +77,5 @@ export async function autoAdvanceHabits() {
   await supabase.from('user_settings')
     .upsert({ key: 'habits_last_advanced', value: today.toISOString() }, { onConflict: 'key' })
 
-  revalidateTag('habits')
+  revalidatePath('/','layout')
 }

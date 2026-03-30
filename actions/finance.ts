@@ -1,5 +1,5 @@
 'use server'
-import { revalidateTag } from 'next/cache'
+import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 
 export async function addTransaction(formData: FormData) {
@@ -26,23 +26,23 @@ export async function addTransaction(formData: FormData) {
     if (acc) {
       const newBalance = Number(acc.balance) + amount
       await supabase.from('accounts').update({ balance: newBalance }).eq('id', accountId)
-      revalidateTag('accounts')
+      revalidatePath('/', 'layout')
     }
   }
 
-  revalidateTag('transactions')
+  revalidatePath('/', 'layout')
 }
 
 export async function deleteTransaction(id: number) {
   const supabase = await createClient()
   const { error } = await supabase.from('transactions').delete().eq('id', id)
   if (error) return { error: error.message }
-  revalidateTag('transactions')
+  revalidatePath('/', 'layout')
 }
 
 export async function updateBudgetSpent(id: number, spent: number) {
   const supabase = await createClient()
   const { error } = await supabase.from('budget_categories').update({ spent }).eq('id', id)
   if (error) return { error: error.message }
-  revalidateTag('budget')
+  revalidatePath('/', 'layout')
 }

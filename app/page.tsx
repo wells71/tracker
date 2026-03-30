@@ -3,32 +3,26 @@ import { StatCard } from '@/components/stat-card'
 import { TaskItem } from '@/components/task-item'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { AddTaskModal } from '@/components/modals/task-modal'
+import { CalendarCard } from '@/components/calendar-card'
 import Link from 'next/link'
 
 export default async function DashboardPage() {
-  const { settings, tasks, goals, budget, habits, transactions, accounts } = await getDashboardData()
+  const { tasks, goals, budget, habits, transactions, accounts } = await getDashboardData()
 
-  const pending    = tasks.filter(t => !t.done).length
-  const done       = tasks.filter(t => t.done).length
-  const netWorth   = accounts.reduce((s, a) => s + Number(a.balance), 0)
-  const spend      = transactions.filter(t => Number(t.amount) < 0).reduce((s, t) => s + Math.abs(Number(t.amount)), 0)
-  const maxStreak  = habits.reduce((m, h) => Math.max(m, h.streak ?? 0), 0)
+  const pending      = tasks.filter(t => !t.done).length
+  const done         = tasks.filter(t => t.done).length
+  const totalSavings = accounts.reduce((s, a) => s + Number(a.balance), 0)
+  const spend        = transactions.filter(t => Number(t.amount) < 0).reduce((s, t) => s + Math.abs(Number(t.amount)), 0)
+  const income       = transactions.filter(t => Number(t.amount) > 0).reduce((s, t) => s + Number(t.amount), 0)
+  const savingsRate  = income > 0 ? Math.round(((income - spend) / income) * 100) : 0
+  const maxStreak    = habits.reduce((m, h) => Math.max(m, h.streak ?? 0), 0)
+
   const previewTasks = [
     ...tasks.filter(t => t.status === 'inprogress'),
     ...tasks.filter(t => t.status === 'upcoming'),
   ].slice(0, 5)
 
   const now = new Date()
-  const monthName = now.toLocaleString('en-US', { month: 'long', year: 'numeric' })
-
-  // Calendar
-  const year = now.getFullYear()
-  const month = now.getMonth()
-  const firstDay = new Date(year, month, 1)
-  const daysInMonth = new Date(year, month + 1, 0).getDate()
-  const startOffset = (firstDay.getDay() + 6) % 7
-  const prevMonthDays = new Date(year, month, 0).getDate()
-  const dayHeaders = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
 
   return (
     <div>
@@ -41,12 +35,12 @@ export default async function DashboardPage() {
         </span>
       </div>
 
-      {/* Stats */}
+      {/* Stats — Net Worth replaced with Savings Rate */}
       <div className="mb-5 grid grid-cols-4 gap-3">
-        <StatCard label="Net Worth"     value={`$${(netWorth / 1000).toFixed(1)}k`} change="↑ +$1,240 this month"    trend="up"      dot="blue"   />
-        <StatCard label="Tasks Done"    value={`${done}/${done + pending}`}          change={`${pending} remaining`}    trend="neutral" dot="white"  />
-        <StatCard label="Monthly Spend" value={`$${spend.toFixed(0)}`}              change="↑ vs last month"           trend="down"    dot="red"    />
-        <StatCard label="Habit Streak"  value={`${maxStreak}d`}                     change="↑ Personal best!"          trend="up"      dot="orange" />
+        <StatCard label="Total Savings"  value={`$${(totalSavings / 1000).toFixed(1)}k`} change="across all accounts"   trend="up"      dot="blue"   />
+        <StatCard label="Tasks Done"     value={`${done}/${done + pending}`}               change={`${pending} remaining`} trend="neutral" dot="white"  />
+        <StatCard label="Monthly Spend"  value={`$${spend.toFixed(0)}`}                   change="this month"             trend="down"    dot="red"    />
+        <StatCard label="Habit Streak"   value={`${maxStreak}d`}                          change="↑ Personal best!"       trend="up"      dot="orange" />
       </div>
 
       {/* Tasks + Calendar */}
@@ -54,7 +48,7 @@ export default async function DashboardPage() {
         <Card className="col-span-2">
           <CardHeader className="flex flex-row items-center justify-between py-3">
             <CardTitle className="text-[15px] font-medium">Today's Tasks</CardTitle>
-            <Link href="/tasks" className="text-[15px] text-muted-foreground hover:text-foreground transition-colors">
+            <Link href="/tasks" className="text-[13px] text-muted-foreground hover:text-foreground transition-colors">
               View all →
             </Link>
           </CardHeader>
@@ -74,34 +68,8 @@ export default async function DashboardPage() {
           </CardContent>
         </Card>
 
-        {/* Calendar */}
-        <Card>
-          <CardHeader className="py-3">
-            <CardTitle className="text-[15px] font-medium">{monthName}</CardTitle>
-          </CardHeader>
-          <CardContent className="pt-0">
-            <div className="grid grid-cols-7 gap-0.5">
-              {dayHeaders.map((d, i) => (
-                <div key={i} className="py-1 text-center font-mono text-[10px] text-muted-foreground">{d}</div>
-              ))}
-              {Array.from({ length: startOffset }, (_, i) => (
-                <div key={`prev-${i}`} className="flex aspect-square items-center justify-center rounded text-[15px] text-muted-foreground/30">
-                  {prevMonthDays - startOffset + 1 + i}
-                </div>
-              ))}
-              {Array.from({ length: daysInMonth }, (_, i) => {
-                const day = i + 1
-                const isToday = day === now.getDate()
-                return (
-                  <div key={day} className={`flex aspect-square items-center justify-center rounded font-mono text-[15px] transition-colors cursor-default
-                    ${isToday ? 'bg-foreground text-background font-semibold' : 'text-muted-foreground hover:bg-accent'}`}>
-                    {day}
-                  </div>
-                )
-              })}
-            </div>
-          </CardContent>
-        </Card>
+        {/* Interactive Calendar */}
+        <CalendarCard tasks={tasks} />
       </div>
 
       {/* Donut + Goals */}
@@ -109,7 +77,7 @@ export default async function DashboardPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between py-3">
             <CardTitle className="text-[15px] font-medium">Spending by Category</CardTitle>
-            <span className="font-mono text-[15px] text-muted-foreground">
+            <span className="font-mono text-[13px] text-muted-foreground">
               {now.toLocaleString('en-US', { month: 'long' })}
             </span>
           </CardHeader>
@@ -136,7 +104,7 @@ export default async function DashboardPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between py-3">
             <CardTitle className="text-[15px] font-medium">Goals</CardTitle>
-            <Link href="/goals" className="text-[15px] text-muted-foreground hover:text-foreground transition-colors">
+            <Link href="/goals" className="text-[13px] text-muted-foreground hover:text-foreground transition-colors">
               View all →
             </Link>
           </CardHeader>
@@ -146,7 +114,7 @@ export default async function DashboardPage() {
                 <div key={g.id}>
                   <div className="mb-1.5 flex justify-between">
                     <span className="text-[14px] text-muted-foreground">{g.name}</span>
-                    <span className="font-mono text-[15px] text-muted-foreground">{g.pct}%</span>
+                    <span className="font-mono text-[13px] text-muted-foreground">{g.pct}%</span>
                   </div>
                   <div className="h-[3px] overflow-hidden rounded-full bg-accent">
                     <div className="h-full rounded-full transition-all" style={{ width: `${g.pct}%`, background: g.color }} />

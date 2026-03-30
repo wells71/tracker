@@ -7,25 +7,19 @@ import { Topbar } from '@/components/topbar'
 import { Toaster } from '@/components/ui/sonner'
 import { getSettings } from '@/lib/db'
 
-export const metadata: Metadata = {
-  title: 'Tracker',
-  description: 'Personal dashboard',
-}
+export const metadata: Metadata = { title: 'Tracker', description: 'Personal dashboard' }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const settings = await getSettings()
-
   return (
     <html lang="en" className={`dark ${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
       <body className="bg-background text-foreground antialiased" suppressHydrationWarning>
         <div className="flex min-h-screen">
-          {/* Fixed sidebar — 220px wide */}
           <Sidebar settings={settings} />
-
-          {/* Main — offset by sidebar width */}
-          <div className="flex min-h-screen flex-1 flex-col pl-[220px]">
+          {/* On mobile: no left padding (sidebar is overlay). On md+: offset by sidebar width */}
+          <div className="flex min-h-screen flex-1 flex-col md:pl-[220px]">
             <Topbar />
-            <main className="flex-1 p-7">
+            <main className="flex-1 p-4 md:p-7">
               {children}
             </main>
           </div>
